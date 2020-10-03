@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Airbnb 的这篇论文《Real-time Personalization using Embeddings for Search Ranking at Airbnb》拿了KDD 2018 的best paper，初次看到这篇文章还是觉得很吃惊的，这么简单地一篇文章也能拿best paper。但细看之后觉得还是有不少工程上可以借鉴学习的地方。在介绍这篇文章之后先讨论一下如何用Word2vec在推">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Embedding 在airbnb房源排序中的应用 （KDD2018 best paper）">
+<meta property="og:url" content="http://wenjunoy.com/2019/03/airbnb_embedding.html">
+<meta property="og:site_name" content="Wenjun&#39;s blog">
+<meta property="og:description" content="Airbnb 的这篇论文《Real-time Personalization using Embeddings for Search Ranking at Airbnb》拿了KDD 2018 的best paper，初次看到这篇文章还是觉得很吃惊的，这么简单地一篇文章也能拿best paper。但细看之后觉得还是有不少工程上可以借鉴学习的地方。在介绍这篇文章之后先讨论一下如何用Word2vec在推">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://wenjunoy.com/images/20190317/skipgram.png">
+<meta property="og:image" content="http://wenjunoy.com/images/20190317/lm.png">
+<meta property="og:image" content="http://wenjunoy.com/images/20190317/sigmoid.png">
+<meta property="og:image" content="http://wenjunoy.com/images/20190317/sigmoid2.png">
+<meta property="og:image" content="http://wenjunoy.com/images/20190317/sigmoid3.png">
+<meta property="og:image" content="http://wenjunoy.com/images/20190317/embbclicksim.jpg">
+<meta property="og:image" content="http://wenjunoy.com/images/20190317/embbskipsim.jpg">
+<meta property="og:image" content="http://wenjunoy.com/images/20190317/type_skipgram.png">
+<meta property="og:image" content="http://wenjunoy.com/images/20190317/user_sigmoid.png">
+<meta property="og:image" content="http://wenjunoy.com/images/20190317/list_sigmoid.png">
+<meta property="og:image" content="http://wenjunoy.com/images/20190317/ul_sigmoid.png">
+<meta property="og:updated_time" content="2019-03-17T07:31:35.795Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Embedding 在airbnb房源排序中的应用 （KDD2018 best paper）">
+<meta name="twitter:description" content="Airbnb 的这篇论文《Real-time Personalization using Embeddings for Search Ranking at Airbnb》拿了KDD 2018 的best paper，初次看到这篇文章还是觉得很吃惊的，这么简单地一篇文章也能拿best paper。但细看之后觉得还是有不少工程上可以借鉴学习的地方。在介绍这篇文章之后先讨论一下如何用Word2vec在推">
+<meta name="twitter:image" content="http://wenjunoy.com/images/20190317/skipgram.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://wenjunoy.com/2019/03/airbnb_embedding.html">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Embedding 在airbnb房源排序中的应用 （KDD2018 best paper） | Wenjun's blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Wenjun's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wenjunoy.com/2019/03/airbnb_embedding.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wen Jun">
+      <meta itemprop="description" content="Wllcome to wenjun's blog">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wenjun's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Embedding 在airbnb房源排序中的应用 （KDD2018 best paper）
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-03-14 20:09:42" itemprop="dateCreated datePublished" datetime="2019-03-14T20:09:42+08:00">2019-03-14</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-03-17 15:31:35" itemprop="dateModified" datetime="2019-03-17T15:31:35+08:00">2019-03-17</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/all-categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Airbnb 的这篇论文<a href="https://www.kdd.org/kdd2018/accepted-papers/view/real-time-personalization-using-embeddings-for-search-ranking-at-airbnb" target="_blank" rel="noopener">《Real-time Personalization using Embeddings for Search Ranking at Airbnb》</a>拿了KDD 2018 的best paper，初次看到这篇文章还是觉得很吃惊的，这么简单地一篇文章也能拿best paper。但细看之后觉得还是有不少工程上可以借鉴学习的地方。在介绍这篇文章之后先讨论一下如何用Word2vec在推荐中做Item Embeddings。</p>
+<!-- excerpt -->
+<h2 id="Embedding-在airbnb房源排序中的应用-（KDD2018-best-paper）"><a href="#Embedding-在airbnb房源排序中的应用-（KDD2018-best-paper）" class="headerlink" title="Embedding 在airbnb房源排序中的应用 （KDD2018 best paper）"></a>Embedding 在airbnb房源排序中的应用 （KDD2018 best paper）</h2><p>Airbnb 的这篇论文<a href="https://www.kdd.org/kdd2018/accepted-papers/view/real-time-personalization-using-embeddings-for-search-ranking-at-airbnb" target="_blank" rel="noopener">《Real-time Personalization using Embeddings for Search Ranking at Airbnb》</a>拿了KDD 2018 的best paper，初次看到这篇文章还是觉得很吃惊的，这么简单地一篇文章也能拿best paper。但细看之后觉得还是有不少工程上可以借鉴学习的地方。在介绍这篇文章之后先讨论一下如何用Word2vec在推荐中做Item Embeddings。</p>
+<h3 id="Word2vec-用于Item-Embeddings"><a href="#Word2vec-用于Item-Embeddings" class="headerlink" title="Word2vec 用于Item Embeddings"></a>Word2vec 用于Item Embeddings</h3><p>Word2vec 用于做词向量相信大家都比较熟悉了，研究生阶段我利用Word2vec的变形在双语词嵌入上做了一些尝试。工作之后才开始接触推荐系统，知道了有人利用Word2vec来做 Item Embeddings，放到item向量学习当然也可以说Node2vec或者 Graph Embeddings。开始我是有点质疑这样做的有效性，Word2vec 能用无监督的方式得到词向量，主要在于语言是有”结构性”的，是有“规律可循”的。例如“吃饭“总是在一起出现，或者说”吃面“，”吃肉“。就是因为有这样的规律，所以才能用word2vec训练语言模型下（也可以参考词向量的<strong>分布式假设</strong>）。但是在推荐中有这样的规律吗？从统计的角度上说，看了某个item1会经常去看另外某个item2。答案当然是存在，这是item-based CF的基本思路。所以Word2vec做ICF类召回还是很有效的。</p>
+<p>推荐系统中，Word2vec以及它变种方法用于召回越来越常见了，很多人也夸张的说：<strong>万物皆可 Embedding</strong>，基本思路都是利用用户的点击历史看作一个”句子”，但是慢慢地在我心中有个疑问，为什么在做推荐的时候没有人想到使用负样本呢？因为用word2vec 学习item 向量时，利用上下文预测中心的item，并且选取一些负样本训练，模型其实认为点了item1就不会点它的负样本item1_neg了。（<em>当然这里也必须选取一些负样本，如果没有负样本这里最终优化到每个item embedding都相等且norm=1，就能使得word2vec的交叉熵loss为0了。</em>）既然在推荐系统的中有负样本，为啥不能利用到word2vec 中训练呢？在nlp中由于是无监督学习，所以只能随机的选取一些其它词来作为负样本。推荐系统与自然语言存在的差异是，我们能搜集到负样本，也应该加以利用。<strong>一方面随机选取负样本有概率落在正样本上，另一方面，这样的负样本不是更加置信吗，也更加具有”区分度“。</strong>我解释一下这里的“区分度”，如果用户喜欢看了一个”Dota游戏“的视频，这个时候负采样一个”娱乐“视频是完全没有问题的吧，但是这个视频上下文中还有一个”CS游戏“的视频我也没看，（这在推荐系统中常见，因为推荐系统会通过用的兴趣”游戏“召回这些视频）这样如果我选”CS游戏“的视频作为负样本是不是比”娱乐“的更好呢，因为我就是不喜欢CS而喜欢Dota，这样训练的Embeddings更加具有区分度。</p>
+<p>上述这个问题一直是我的疑问，当然还没有时间去验证，结果看到这篇文章，完全解决了我之前的疑惑。这篇文章从这些方面说明了很多问题，并且结合了很多在Airbnb场景下的工程问题，仍然值得仔细研究。</p>
+<h3 id="Airbnb-中的-Embedding"><a href="#Airbnb-中的-Embedding" class="headerlink" title="Airbnb 中的 Embedding"></a>Airbnb 中的 Embedding</h3><h4 id="Listing-Embeddings"><a href="#Listing-Embeddings" class="headerlink" title="Listing Embeddings"></a>Listing Embeddings</h4><p>首先指明一下这里的Listing 就是推荐系统中的item。</p>
+<!-- ![](fig/skipgram.png) -->
+<center><img src="/images/20190317/skipgram.png" width="620"></center>
+
+<p>Airbnb与其他得到embedding 的方式类似，利用用的点击历史，然后上下文预测的方式训练listing embedding。</p>
+<p>公式如下：</p>
+<!-- ![](fig/lm.png) -->
+<div align="center"><img src="/images/20190317/lm.png" width="300"></div>
+
+<p>利用Skip-Gram + 负采样的方式训练上述公式，$\text{v}_l$ 是listing 的表示向量，$\text{v}_c’$是网络参数，$D_n$是负采样的样本集合。</p>
+<!-- ![](fig/sigmoid.png) -->
+<div align="center"><img src="/images/20190317/sigmoid.png" width="440"></div>
+
+<p>当然Airbnb不仅仅是这样做，因为有些房子不仅是用户点击过，而且是用户booked的，这里只有一个listing。也就是说在airbnb的场景中，用户看了很多房源之后最后booked了一个房源。既然是这样，airbnb希望充分利用起这样的监督信息。如Figure1，中心的listing不仅去预测它的上下文还去预测一个booked listing。这是一个global context，并且在这个序列中一直是不变的。所以它的优化目标添加了一项：</p>
+<!-- ![](fig/sigmoid2.png) -->
+<div align="center"><img src="/images/20190317/sigmoid2.png" width="550"></div>
+
+<p>值得注意的是这里使用的参数$v_{l_b}’$与上述的$v_c’$不一样，这其实可以看作是两个不同的task，一个只是在学习中心listing与周围listing的关系，而另一个task想学习的是这一串序列所有的listing与最后的booked linsting有另外一种关系，很显然这是不一样的。另外$v_{l_b}$这里的参数量还是挺大的，是看了l然后最后选了b的所有集合大小。</p>
+<p>这样当然还不够，为了学习更强的差异性，也就是用户会看某个房源，但不会看相同市场的其它房源，注意之前负采样是所有里面随机，而这里是选用相同的市场的其它的房源。当然这两种关系仍然是不同的，所以添加一项负采样，并且参数都不一样，如下：</p>
+<!-- ![](fig/sigmoid3.png) -->
+<center><img src="/images/20190317/sigmoid3.png" width="430"></center>
+
+<p>最后总结这个优化目标：</p>
+<ul>
+<li>$v_l$ 是中心房源的向量，$v’$都表示网络参数</li>
+<li>$D_p$ 是房源对(l,c)集合,l，c在都在一个窗口内。</li>
+<li>$D_n$ 是房源对(l,c)的负采样集合。</li>
+<li>$l_b$ 是用户看过这一系列房源最终预定的房源。一个序列只有一个。</li>
+<li>$D_{m_n}$是与$l$同一个市场的负采样集合。</li>
+</ul>
+<p>$v_{m_n}’$是参数量大小就是每个市场下房源的集合，如果每个房源只属于一个市场，那么它就和房源字典$V$大小相同。</p>
+<h4 id="基于embedding-的相似房源推荐"><a href="#基于embedding-的相似房源推荐" class="headerlink" title="基于embedding 的相似房源推荐"></a>基于embedding 的相似房源推荐</h4><p>有了每个房源的embedding 表示之后，之后可以将它利用在i2i的召回上，简单上来说就是通过用户的点击历史来推荐与这些房源相似的房源，这个相似度是通过向量的距离来计算的。</p>
+<p>值得一提的是，Airbnb有两点比较特别</p>
+<ul>
+<li>1.分市场找到最相似的房源</li>
+<li>2.不仅利用了点击历史$H_c$，而且利用未点击的记录 $H_s$，</li>
+</ul>
+<p>所以它定义了两个相似：</p>
+<center><img src="/images/20190317/embbclicksim.jpg" width="400"></center>
+
+<center><img src="/images/20190317/embbskipsim.jpg" width="400"></center>
+
+<p>由于Airbnb的场景是推荐房源，所以限制推荐候选房源所属地非常重要。第二点计算跳过的房源相似分，这样相当于一种负反馈的机制，也就说对于那些用户跳过的房源，只要候选房源与他们相似，就不容易被推荐。</p>
+<h4 id="房源冷启动问题"><a href="#房源冷启动问题" class="headerlink" title="房源冷启动问题"></a>房源冷启动问题</h4><p>冷启动一直是推荐系统很重要问题，这里给了一种冷启动的方法，对于新的listing embedding，因为没有用户行为数据，它利用3个相同类别，相似价格的listing embedding求平均得到。</p>
+<h3 id="user-type-和listing-type-embedding"><a href="#user-type-和listing-type-embedding" class="headerlink" title="user-type 和listing-type embedding"></a>user-type 和listing-type embedding</h3><p>仅仅有两个房源之间的相似性还不够，Airbnb希望能直接学习user embedding和listing embedding，然后计算它们的相似性来直接影响排序模型。</p>
+<p>首先他们将用户和listing都分别聚类，具有相似特征的user会聚到同一个user-type，而具有相似特征listing聚到相同的listing-type。这里的相似特征指的是基础属性，例如用户最近booked3个房子，用户年龄等等。最终表示成这样的一个id：<code>SF_lg1_dt1_f p1_pp1_nb1_ppn2_ppn3_c2_nr3_l5s3_g5s3</code>，每两个下划线中间表示一个基础特征，所有基础特征相同的user都映射到相同的id。listing的映射也是同理。这样做的目的主要是因为某些user listing的稀疏性，很多用户和listing的行为数较少，比如一个user只有3次点击历史，这样的user直接放进模型中肯定学的不好，但是又不能忽视这样的user，因为这直接决定了embedding 的覆盖量。所以Airbnb想出这种方式来提高覆盖量，listing 的做法也是类似的道理。</p>
+<center><img src="/images/20190317/type_skipgram.png" width="650"></center>
+
+<p>由于Airbnb的场景是为了用户预订房源，所以在学习user embedding的时候只利用用户的booked listing历史。它的优化目标如下：</p>
+<center><img src="/images/20190317/user_sigmoid.png" width="500"></center>
+
+<p>其中$v_{u_t}$表示user-type的embedding，$v_c’$是网络参数，$D_{book}$是用户的booked listing历史集合，$D_{neg}$是负采样的集合。</p>
+<p>而对于list-type的embedding通过下面的目标训练：</p>
+<center><img src="/images/20190317/list_sigmoid.png" width="500"></center>
+
+<p>值得注意的时候这里使用的是相同的网络参数$v_c’$，所以通过这种方式能将user-type和listing-type的向量学到同一个空间内。这部分内容可以参考paragraph2vec中的PV-DBOW模型，与之目标相似。</p>
+<p>这里还有一个负反馈的方式就是利用了用户rejection的 listing，那这写listing作为负样本。改造之后的目标是：</p>
+<center><img src="/images/20190317/ul_sigmoid.png" width="500"></center>
+
+<p>至此，Airbnb这篇论文的几种embedding技术介绍完了，总的来说就是通过skipGram+负采样的训练方式，然后在考虑两点在实际的工程中变形：1.<strong>如何构造点击序列</strong>，2.<strong>如何负采样</strong>。Airbnb的经验告诉我们负采样的时候充分利用一些监督信息是很有帮助的。</p>
+<p><strong>参考文章</strong></p>
+<ul>
+<li><p><a href="https://zhuanlan.zhihu.com/p/43295545" target="_blank" rel="noopener">Airbnb爱彼迎房源排序中的嵌入(Embedding)技术</a></p>
+</li>
+<li><p><a href="https://zhuanlan.zhihu.com/p/55149901" target="_blank" rel="noopener">从KDD 2018 Best Paper看Airbnb实时搜索排序中的Embedding技巧</a></p>
+</li>
+<li><p><a href="https://zhuanlan.zhihu.com/p/49537461" target="_blank" rel="noopener">不一样的论文解读2018 KDD best paper: Embeddings at Airbnb</a></p>
+</li>
+<li><p><a href="https://www.kdd.org/kdd2018/accepted-papers/view/real-time-personalization-using-embeddings-for-search-ranking-at-airbnb" target="_blank" rel="noopener">Real-time Personalization using Embeddings for Search Ranking at Airbnb</a></p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/jianshuapi.html" rel="next" title="简书爬虫API实现 （python代码）">
+                <i class="fa fa-chevron-left"></i> 简书爬虫API实现 （python代码）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Wen Jun</p>
+              <div class="site-description motion-element" itemprop="description">Wllcome to wenjun's blog</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/wenjunoy" title="GitHub &rarr; https://github.com/wenjunoy" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:wjouyang@tencent.com" title="E-Mail &rarr; mailto:wjouyang@tencent.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Embedding-在airbnb房源排序中的应用-（KDD2018-best-paper）"><span class="nav-number">1.</span> <span class="nav-text">Embedding 在airbnb房源排序中的应用 （KDD2018 best paper）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Word2vec-用于Item-Embeddings"><span class="nav-number">1.1.</span> <span class="nav-text">Word2vec 用于Item Embeddings</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Airbnb-中的-Embedding"><span class="nav-number">1.2.</span> <span class="nav-text">Airbnb 中的 Embedding</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Listing-Embeddings"><span class="nav-number">1.2.1.</span> <span class="nav-text">Listing Embeddings</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基于embedding-的相似房源推荐"><span class="nav-number">1.2.2.</span> <span class="nav-text">基于embedding 的相似房源推荐</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#房源冷启动问题"><span class="nav-number">1.2.3.</span> <span class="nav-text">房源冷启动问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#user-type-和listing-type-embedding"><span class="nav-number">1.3.</span> <span class="nav-text">user-type 和listing-type embedding</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wen Jun</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

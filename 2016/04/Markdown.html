@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Markdown是一种可以使用普通文本编辑器编写的标记语言，通过简单的标记语法，它可以使普通文本内容具有一定的格式。请不要被「标记」、「语言」所迷惑，Markdown 的语法十分简单，容易学习 Markdown简介 Markdown是一种可以使用普通文本编辑器编写的标记语言，通过简单的标记语法，它可以使普通文本内容具有一定的格式。请不要被「标记」、「语言」所迷惑，Markdown 的语法十分简单，">
+<meta name="keywords" content="Markdown">
+<meta property="og:type" content="article">
+<meta property="og:title" content="认识Markdown">
+<meta property="og:url" content="http://wenjunoy.com/2016/04/Markdown.html">
+<meta property="og:site_name" content="Wenjun&#39;s blog">
+<meta property="og:description" content="Markdown是一种可以使用普通文本编辑器编写的标记语言，通过简单的标记语法，它可以使普通文本内容具有一定的格式。请不要被「标记」、「语言」所迷惑，Markdown 的语法十分简单，容易学习 Markdown简介 Markdown是一种可以使用普通文本编辑器编写的标记语言，通过简单的标记语法，它可以使普通文本内容具有一定的格式。请不要被「标记」、「语言」所迷惑，Markdown 的语法十分简单，">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/20160413232620.jpg">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/20160416131730.jpg">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/20160416131559.jpg">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/s11121417.jpg">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/pic-1403-Mou-Snip20140314_1.png">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/20160413220053.jpg">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/1407246766511.png">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/20160413221829.jpg">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/20160413222920.jpg">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/20160413224831.jpg">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/sublime.jpg">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/20160416133740.jpg">
+<meta property="og:updated_time" content="2019-03-13T16:01:10.478Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="认识Markdown">
+<meta name="twitter:description" content="Markdown是一种可以使用普通文本编辑器编写的标记语言，通过简单的标记语法，它可以使普通文本内容具有一定的格式。请不要被「标记」、「语言」所迷惑，Markdown 的语法十分简单，容易学习 Markdown简介 Markdown是一种可以使用普通文本编辑器编写的标记语言，通过简单的标记语法，它可以使普通文本内容具有一定的格式。请不要被「标记」、「语言」所迷惑，Markdown 的语法十分简单，">
+<meta name="twitter:image" content="http://7xlx99.com1.z0.glb.clouddn.com/20160413232620.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://wenjunoy.com/2016/04/Markdown.html">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>认识Markdown | Wenjun's blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Wenjun's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wenjunoy.com/2016/04/Markdown.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wen Jun">
+      <meta itemprop="description" content="Wllcome to wenjun's blog">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wenjun's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">认识Markdown
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2016-04-14 09:47:13" itemprop="dateCreated datePublished" datetime="2016-04-14T09:47:13+08:00">2016-04-14</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-03-14 00:01:10" itemprop="dateModified" datetime="2019-03-14T00:01:10+08:00">2019-03-14</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/all-categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Markdown是一种可以使用普通文本编辑器编写的标记语言，通过简单的标记语法，它可以使普通文本内容具有一定的格式。请不要被「标记」、「语言」所迷惑，Markdown 的语法十分简单，容易学习<br><!-- excerpt --></p>
+<h3 id="Markdown简介"><a href="#Markdown简介" class="headerlink" title="Markdown简介"></a>Markdown简介</h3><blockquote>
+<p>Markdown是一种可以使用普通文本编辑器编写的标记语言，通过简单的标记语法，它可以使普通文本内容具有一定的格式。请不要被「标记」、「语言」所迷惑，Markdown 的语法十分简单，容易学习，常用的标记符号十来个。而且功能比纯文本更强，因此有很多人用它写博客。相对于复杂的HTML标记语言来说，Markdown十分轻量，学习成本低，一旦熟悉规则，会有一劳永逸的效果。</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="使用Markdown的优点"><a href="#使用Markdown的优点" class="headerlink" title="使用Markdown的优点"></a>使用Markdown的优点</h3><ul>
+<li>让你专注于文字内容，而不是排版和样式问题，而且样式非常美观</li>
+<li>大部分Markdown工具支持导出HTML、PDF和md文件</li>
+<li>因为编辑的是纯文本内容，兼容所有的文本编辑器，如Notepad，Sublime Text，Vim等</li>
+<li>可读，直观，适合所有人的写作语言，不管你需要编写代码还是公式，甚至是流程图</li>
+<li>可以是一些博客平台配套的编辑器，比如Hexo，而且现在很多平台都支持Mrakdown编辑，如简书，微博和知乎等</li>
+<li>学习起来非常的简单，性价比非常高的一次投资</li>
+</ul>
+<blockquote>
+<p><strong>推荐</strong>：GitHub+Hexo搭建免费的个人博客，可以使用Markdown编辑，详细内容可以看这篇：<a href="http://wenjunoy.com/2016/hexo-github-blog/">在GitHub上搭建一个Hexo博客系统</a></p>
+</blockquote>
+<h3 id="Markdown-语法简要规则"><a href="#Markdown-语法简要规则" class="headerlink" title="Markdown 语法简要规则"></a>Markdown 语法简要规则</h3><h4 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h4><p>标题是一篇文章常见的格式，在Markdown中，一段文字被定义成标题，只需要在这段文字前加1-6个<code>#</code>，分别对应的标题深度是1-6阶。<br><code># 一级标题</code><br><code>## 二级标题</code><br><code>### 三级标题</code><br><code>#### 四级标题</code><br><code>##### 五级标题</code><br><code>###### 六级标题</code></p>
+<h4 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h4><p>在Markdown 语法中，列表的显示只需要在文字前加上<code>+</code> <code>-</code>或 <code>*</code>即可变为无序列表，如果是需要使用有序表，直接在文字前面添加<code>1. 2. 3.</code>符号，<strong>注意以上符号都要和文字之间加上一个字符的空格</strong>。<br>以下三种情况等价，如下:</p>
+<p><code>*   Red</code><br><code>*   Green</code><br><code>*   Blue</code></p>
+<p><code>+   Red</code><br><code>+   Green</code><br><code>+   Blue</code></p>
+<p><code>-   Red</code><br><code>-   Green</code><br><code>-   Blue</code></p>
+<p>效果：</p>
+<ul>
+<li>Red</li>
+<li>Green</li>
+<li>Blue</li>
+</ul>
+<h4 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h4><p>给一段文字添加链接非常简单。<br><code>[链接文字](链接地址)</code><br><a href="http://www.baidu.com" target="_blank" rel="noopener">这是链接</a></p>
+<h4 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h4><p><code>&gt; 引用的文字</code><br>效果如下：</p>
+<blockquote>
+<p>引用的文字</p>
+</blockquote>
+<h4 id="粗体和斜体"><a href="#粗体和斜体" class="headerlink" title="粗体和斜体"></a>粗体和斜体</h4><p>两个 <code>*</code> 包含一段文本就是粗体的语法，用一个 <code>*</code> 包含一段文本就是斜体的语法。<br>例如：<strong>这是粗体</strong> <em>这是斜体</em></p>
+<h4 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h4><p>表格是在Markdown编辑比较麻烦，个人建议使用Excel，然后截图上传比较方便。但是如果你需要使用的话，请看下面：<br><img src="http://7xlx99.com1.z0.glb.clouddn.com/20160413232620.jpg" alt><br>效果如下：<br>| Item      |    Value | Qty  |<br>| :——– | ——–:| :–: |<br>| Computer  | 1600 USD |  5   |<br>| Phone     |   12 USD |  12  |<br>| Pipe      |    1 USD | 234  |</p>
+<h4 id="图片"><a href="#图片" class="headerlink" title="图片"></a>图片</h4><p>Markdown 添加图片和添加链接的方式差不多，只需要在链接的基础上添加一个英文感叹号!<br><code>！[图片描述](图片链接)</code><br>一般可以直接添加网上的图片链接即可，如果需要上传图片的话，这里推荐<a href="http://www.qiniu.com/" target="_blank" rel="noopener">七牛云存储</a>，支持10G的免费存储空间，一般足够使用。上传图片之后复制外链出来使用。</p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p>如果你是个程序猿，需要在笔记中添加代码框，并支持代码高亮。在 Markdown 下实现也非常简单，只需要用两个<code>将代码包起来，如： `</code>your code<code></code>。如果是一大段的代码框用两个”3个单引号”包围起来即可，如下：</p>
+<p>效果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">function</span><span class="params">()</span>:</span></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>&lt; python &gt; 是指你用的python语言，不写也可以。</p>
+<h4 id="分割线"><a href="#分割线" class="headerlink" title="分割线"></a>分割线</h4><p>使用<code>***</code>或者<code>---</code>就能达到如下分割线的效果，<strong>注意如果使用—，需要在前面添加空行</strong>。</p>
+<hr>
+<p>以上就是常用的Markdown语法，基本的编辑够用了。一些Markdown 工具还支持Latex公式和流程图。</p>
+<p><img src="http://7xlx99.com1.z0.glb.clouddn.com/20160416131730.jpg" alt="公式"></p>
+<p><img src="http://7xlx99.com1.z0.glb.clouddn.com/20160416131559.jpg" alt="流程图"></p>
+<p><em>以上图片来之<a href="https://maxiang.io/" target="_blank" rel="noopener">马克飞象</a></em><br>更多的语法请看这：<a href="http://www.appinn.com/markdown/" target="_blank" rel="noopener">Markdown 语法说明（简体中文版）</a></p>
+<h3 id="什么Markdown工具适合我们"><a href="#什么Markdown工具适合我们" class="headerlink" title="什么Markdown工具适合我们"></a>什么Markdown工具适合我们</h3><blockquote>
+<p>工欲善其事必先利其器</p>
+</blockquote>
+<p>在各个平台上已经存在很多markdown编辑工具供我们选择，下面介绍几个。</p>
+<h4 id="1-Mou"><a href="#1-Mou" class="headerlink" title="1.Mou"></a>1.Mou</h4><p><img src="http://7xlx99.com1.z0.glb.clouddn.com/s11121417.jpg" alt><br>在Mac OS X上，强烈推荐你使用<a href="http://25.io/mou/" target="_blank" rel="noopener">Mou</a>，这是一款免费且十分好用的Markdown编辑器，支持实时预览，左边是你编辑的Markdown语言，右边是实时显示的预览效果。而且支持修改编辑器和预览的样式，懂css的朋友可以试着修改预览样式。<br><img src="http://7xlx99.com1.z0.glb.clouddn.com/pic-1403-Mou-Snip20140314_1.png" alt></p>
+<h4 id="2-简书"><a href="#2-简书" class="headerlink" title="2.简书"></a>2.简书</h4><p><a href="http://www.jianshu.com/" target="_blank" rel="noopener">简书</a>是一个不错的博客平台，几秒钟文章自动备份一次，可以直接从本地拖动图片到编辑器生成链接，同时支持手机和web上 Markdown编辑，复制的Markdown内容到简书编辑器也能直接上传文中所有的图片。文章支持私密和公开，所以非常适合自媒体工作者，但是私密的文章只能看到纯Markdown的编辑内容，无法预览。我认为简书还是非常美观的，而且手机上支持生成文章图片，唯一的缺点就是<strong>不能离线编辑，需要登入才能编辑</strong>。<br><img src="http://7xlx99.com1.z0.glb.clouddn.com/20160413220053.jpg" alt></p>
+<p>推荐「简书」完全是因为它本身是一款不错的应用，适合很多自媒体工作者，这里也聚集了很多爱写作的人。相信作者如果有一个更加舒适的写作环境一定能写出更好的作品，让人赏心悦目，也提高效率，吸引更多的读者。每个人都有选择简书的理由，体验过后你就知道了。</p>
+<h4 id="3-Marxico（马克飞象）"><a href="#3-Marxico（马克飞象）" class="headerlink" title="3.Marxico（马克飞象）"></a>3.Marxico（马克飞象）</h4><p><img src="http://7xlx99.com1.z0.glb.clouddn.com/1407246766511.png" alt="Evenote · Marxico"></p>
+<p>Marxico中文名：<a href="https://maxiang.io/" target="_blank" rel="noopener">马克飞象</a>，因为印象笔记不支持Markdown编辑，这款软件可以直接把编辑的Markdown文件存入印象笔记，对于一些重度的印象笔记依赖者是一个不错的选择。但是这么好的功能肯定不是免费，10天的免费试用期，￥79/年。你值得拥有 ，正如我这篇文章就是用马克飞象编辑的，同样支持预览功能，支持web编辑，保存至你的印象笔记，支持离线编辑并且保存为html，pdf和md文件，但是只有联网的时候才能上传至印象笔记。配合使用印象笔记，给文章分类添加标签，方便整理！详细请看这篇<a href="http://tech2ipo.com/82067" target="_blank" rel="noopener">文章</a>的介绍<br><img src="http://7xlx99.com1.z0.glb.clouddn.com/20160413221829.jpg" alt="马克飞象"></p>
+<h4 id="4-Cmd-Markdown"><a href="#4-Cmd-Markdown" class="headerlink" title="4.Cmd Markdown"></a>4.Cmd Markdown</h4><p>Cmd Markdown <a href="https://www.zybuluo.com" target="_blank" rel="noopener">作业部落</a>出品，Cmd 的功能十分完善，与印象笔记一样有实时同步预览、独立/分屏切换、在线发布，编辑工具栏、实时保存数据到云端、离线模式、阅读模式、标签/分类/搜索，俨然是重量级的 Markdown 应用。同时Windows，Linux，web平台，支持在线web编辑与离线桌面应用编辑。<br><img src="http://7xlx99.com1.z0.glb.clouddn.com/20160413222920.jpg" alt="作业部落"><br>但是同样的免费版本的用户不支持导出pdf，导出印象笔记和网页，这点是我非常不能忍受的，居然导出pdf功能也需要付费！！不过相比于马克飞象无法上传相比，有一个云端存储的功能也算良心，可以让你在多台电脑上编辑。如果不想付费，可以在两者之间根据自己的需求作挑选。土豪请随意，也算非常值得的一次投资。<br><img src="http://7xlx99.com1.z0.glb.clouddn.com/20160413224831.jpg" alt></p>
+<h4 id="5-sublime-Text-3"><a href="#5-sublime-Text-3" class="headerlink" title="5.sublime Text 3"></a>5.sublime Text 3</h4><p><img src="http://7xlx99.com1.z0.glb.clouddn.com/sublime.jpg" alt="sublime"></p>
+<p>一款基于 Vim 开发的跨平台代码编辑器，支持 OS X、Windows、Ubuntu 等 UNIX 及 Linux 操作系统，并由于其功能的多样性而广受好评，在代码工作者圈内相当出名！关于 Vim，《MacTalk 人生元编程》一书的作者 @池建强 是这么评价的：</p>
+<blockquote>
+<p>操作系统、编程语言和编辑器是程序员永恒的吐槽话题，技术发展了几十年，争论起来依然是「此恨绵绵无绝期」。在本文编辑器领域，Vim 和 Emacs 是永恒的焦点。Vim 号称编辑器之神，Emacs 则是神的编辑器；Vim 编程唯快不破，插件遍天下，Emacs 则宣称自己是伪装成文本编辑器的操作系统。</p>
+</blockquote>
+<p><img src="http://7xlx99.com1.z0.glb.clouddn.com/20160416133740.jpg" alt></p>
+<p>Sublime Text本来是为编程语言设计的，是一款非常美观，使用起来也非常方便的代码编辑器，比起Notepad来说我更喜欢Sublime Text的暗黑色调字体。Sublime Text支持很多编程语言包括大家熟知的 C、C++、C#、Objective-C、AppleScript、HTML、Java、Python 等。通过第三方插件，Sublime Text 还能实现更多语法的支持，这之中的代表就是 Markdown。然后用户可以通过一种叫 Markdown Preview 的插件实现对 Markdown 的预览，但是必须要有浏览器的支持。使用起来还是不算方便的，不建议非依赖Sublime编辑代码的程序员使用。</p>
+<p>这里只是介绍了一小部分的Markdown编辑平台而且仅限于对windows的了解，Mac系统上Markdown编辑器很多，Mou只是其中一个优秀的代表。</p>
+<h3 id="相关文章阅读"><a href="#相关文章阅读" class="headerlink" title="相关文章阅读"></a>相关文章阅读</h3><ul>
+<li><a href="http://apple4us.com/2012/02/why-writers-should-use-markdown.html" target="_blank" rel="noopener">为什么作家应该用 Markdown 保存自己的文稿</a></li>
+<li><a href="http://www.yangzhiping.com/tech/r-markdown-knitr.html" target="_blank" rel="noopener">Markdown 写作浅谈</a></li>
+<li><a href="http://www.appinn.com/markdown-tools/" target="_blank" rel="noopener">Markdown 工具补完</a></li>
+<li><a href="http://www.ituring.com.cn/article/23" target="_blank" rel="noopener">图灵社区 - 怎样使用 Markdown</a></li>
+<li><a href="http://news.cnblogs.com/n/139649/" target="_blank" rel="noopener">为什么我们要学习 Markdown 的三个理由</a></li>
+</ul>
+<p><strong>参考内容</strong>：<a href="http://sspai.com/25137" target="_blank" rel="noopener">认识与入门 Markdown——少数派</a></p>
+<p><strong>结语：Markdown只是工具，内容思想才决定你的高度。</strong></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/all-tags/Markdown/" rel="tag"># Markdown</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/hexo-github-blog.html" rel="next" title="在Github上搭建一个Hexo博客系统">
+                <i class="fa fa-chevron-left"></i> 在Github上搭建一个Hexo博客系统
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/dataset-vision.html" rel="prev" title="Dataset-vision">
+                Dataset-vision <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Wen Jun</p>
+              <div class="site-description motion-element" itemprop="description">Wllcome to wenjun's blog</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/wenjunoy" title="GitHub &rarr; https://github.com/wenjunoy" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:wjouyang@tencent.com" title="E-Mail &rarr; mailto:wjouyang@tencent.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Markdown简介"><span class="nav-number">1.</span> <span class="nav-text">Markdown简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Markdown的优点"><span class="nav-number">2.</span> <span class="nav-text">使用Markdown的优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Markdown-语法简要规则"><span class="nav-number">3.</span> <span class="nav-text">Markdown 语法简要规则</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#标题"><span class="nav-number">3.1.</span> <span class="nav-text">标题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#列表"><span class="nav-number">3.2.</span> <span class="nav-text">列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#链接"><span class="nav-number">3.3.</span> <span class="nav-text">链接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#引用"><span class="nav-number">3.4.</span> <span class="nav-text">引用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#粗体和斜体"><span class="nav-number">3.5.</span> <span class="nav-text">粗体和斜体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#表格"><span class="nav-number">3.6.</span> <span class="nav-text">表格</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#图片"><span class="nav-number">3.7.</span> <span class="nav-text">图片</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码"><span class="nav-number">3.8.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分割线"><span class="nav-number">3.9.</span> <span class="nav-text">分割线</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么Markdown工具适合我们"><span class="nav-number">4.</span> <span class="nav-text">什么Markdown工具适合我们</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Mou"><span class="nav-number">4.1.</span> <span class="nav-text">1.Mou</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-简书"><span class="nav-number">4.2.</span> <span class="nav-text">2.简书</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-Marxico（马克飞象）"><span class="nav-number">4.3.</span> <span class="nav-text">3.Marxico（马克飞象）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-Cmd-Markdown"><span class="nav-number">4.4.</span> <span class="nav-text">4.Cmd Markdown</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-sublime-Text-3"><span class="nav-number">4.5.</span> <span class="nav-text">5.sublime Text 3</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相关文章阅读"><span class="nav-number">5.</span> <span class="nav-text">相关文章阅读</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wen Jun</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

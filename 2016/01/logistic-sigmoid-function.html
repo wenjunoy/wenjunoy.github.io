@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Logistic函数的表示形式如下：它的函数图像如下，由于函数图像很像一个“S”型，所以该函数又叫 sigmoid 函数。 一.Logistic函数Logistic函数的表示形式如下：  它的函数图像如下，由于函数图像很像一个“S”型，所以该函数又叫 sigmoid 函数。  满足的性质： 1.对称性，关于(0,0.5)中心对称  2.逻辑斯谛方程即微分方程  最早logistic函数是皮埃尔·弗">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Logistic函数（sigmoid函数）">
+<meta property="og:url" content="http://wenjunoy.com/2016/01/logistic-sigmoid-function.html">
+<meta property="og:site_name" content="Wenjun&#39;s blog">
+<meta property="og:description" content="Logistic函数的表示形式如下：它的函数图像如下，由于函数图像很像一个“S”型，所以该函数又叫 sigmoid 函数。 一.Logistic函数Logistic函数的表示形式如下：  它的函数图像如下，由于函数图像很像一个“S”型，所以该函数又叫 sigmoid 函数。  满足的性质： 1.对称性，关于(0,0.5)中心对称  2.逻辑斯谛方程即微分方程  最早logistic函数是皮埃尔·弗">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/logisticQQ截图20160115170338.png">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/logisticQQ截图20160115164821.png">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/logisticQQ截图20160115170601.png">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/logisticQQ截图20160115170825.png">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/logisticQQ截图20160125200523.png">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/logisticQQ截图20160125200514.png">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/logisticQQ截图20160125163555.png">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/logisticQQ截图20160125163606.png">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/logisticQQ截图20160125194639.png">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/logisticQQ截图20160125194648.png">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/logisticQQ截图20160125194659.png">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/logisticQQ截图20160125195933.png">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/logisticQQ截图20160125213742.png">
+<meta property="og:updated_time" content="2019-03-13T16:01:10.482Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Logistic函数（sigmoid函数）">
+<meta name="twitter:description" content="Logistic函数的表示形式如下：它的函数图像如下，由于函数图像很像一个“S”型，所以该函数又叫 sigmoid 函数。 一.Logistic函数Logistic函数的表示形式如下：  它的函数图像如下，由于函数图像很像一个“S”型，所以该函数又叫 sigmoid 函数。  满足的性质： 1.对称性，关于(0,0.5)中心对称  2.逻辑斯谛方程即微分方程  最早logistic函数是皮埃尔·弗">
+<meta name="twitter:image" content="http://7xlx99.com1.z0.glb.clouddn.com/logisticQQ截图20160115170338.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://wenjunoy.com/2016/01/logistic-sigmoid-function.html">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Logistic函数（sigmoid函数） | Wenjun's blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Wenjun's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wenjunoy.com/2016/01/logistic-sigmoid-function.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wen Jun">
+      <meta itemprop="description" content="Wllcome to wenjun's blog">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wenjun's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Logistic函数（sigmoid函数）
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2016-01-25 20:09:42" itemprop="dateCreated datePublished" datetime="2016-01-25T20:09:42+08:00">2016-01-25</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-03-14 00:01:10" itemprop="dateModified" datetime="2019-03-14T00:01:10+08:00">2019-03-14</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/all-categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Logistic函数的表示形式如下：它的函数图像如下，由于函数图像很像一个“S”型，所以该函数又叫 sigmoid 函数。<br><!-- excerpt --></p>
+<h5 id="一-Logistic函数"><a href="#一-Logistic函数" class="headerlink" title="一.Logistic函数"></a>一.Logistic函数</h5><p>Logistic函数的表示形式如下：</p>
+<p><img src="http://7xlx99.com1.z0.glb.clouddn.com/logisticQQ截图20160115170338.png" alt></p>
+<p>它的函数图像如下，由于函数图像很像一个“S”型，所以该函数又叫 sigmoid 函数。</p>
+<p><img src="http://7xlx99.com1.z0.glb.clouddn.com/logisticQQ截图20160115164821.png" alt></p>
+<p>满足的性质：</p>
+<p>1.对称性，关于(0,0.5)中心对称</p>
+<p><img src="http://7xlx99.com1.z0.glb.clouddn.com/logisticQQ截图20160115170601.png" alt></p>
+<p>2.逻辑斯谛方程即微分方程</p>
+<p><img src="http://7xlx99.com1.z0.glb.clouddn.com/logisticQQ截图20160115170825.png" alt></p>
+<p>最早logistic函数是皮埃尔·弗朗索瓦·韦吕勒在1844或1845年在研究它与人口增长的关系时命名的。广义Logistic曲线可以模仿一些情况人口增长（_P_）的 S 形曲线。起初阶段大致是<a href="http://baike.baidu.com/view/670410.htm" target="_blank" rel="noopener">指数增长</a>；然后随着开始变得饱和，增加变慢；最后，达到成熟时增加停止。</p>
+<p>当一个物种迁入到一个新生态系统中后，其数量会发生变化。假设该物种的起始数量小于环境的最大容纳量，则数量会增长。该物种在此生态系统中有天敌、食物、空间等资源也不足（非理想环境），则增长函数满足逻辑斯谛方程，图像呈S形，此方程是描述在资源有限的条件下种群增长规律的一个最佳数学模型。在以下内容中将具体介绍逻辑斯谛方程的原理、生态学意义及其应用。</p>
+<h5 id="二-Logistic-Regression-逻辑斯蒂回归"><a href="#二-Logistic-Regression-逻辑斯蒂回归" class="headerlink" title="二.Logistic Regression(逻辑斯蒂回归)"></a>二.Logistic Regression(逻辑斯蒂回归)</h5><p>Logistic regression （逻辑回归）是当前业界比较常用的机器学习方法，用于估计某种事物的可能性。之前在经典之作《数学之美》中也看到了它用于广告预测，也就是根据某广告被用户点击的可能性，把最可能被用户点击的广告摆在用户能看到的地方，然后叫他“你点我啊！”用户点了，你就有钱收了。这就是为什么我们的电脑现在广告泛滥的原因了。</p>
+<p>还有类似的某用户购买某商品的可能性，某病人患有某种疾病的可能性啊等等。这个世界是随机的（当然了，人为的确定性系统除外，但也有可能有噪声或产生错误的结果，只是这个错误发生的可能性太小了，小到千万年不遇，小到忽略不计而已），所以万物的发生都可以用可能性或者几率（Odds）来表达。“几率”指的是某事物发生的可能性与不发生的可能性的比值。</p>
+<p>Logistic regression可以用来回归，也可以用来分类，主要是二分类。它不像SVM直接给出一个分类的结果，Logistic Regression给出的是这个样本属于正类或者负类的可能性是多少，当然在多分类的系统中给出的是属于不同类别的可能性，进而通过可能性来分类。</p>
+<p>假设我们的样本是{<strong>x</strong>, y}，y是0或者1，表示正类或者负类，<strong>x</strong>是我们的m维的样本特征向量。那么这个样本<strong>x</strong>属于正类，也就是y=1的“概率”可以通过下面的逻辑函数来表示：</p>
+<p><img src="http://7xlx99.com1.z0.glb.clouddn.com/logisticQQ截图20160125200523.png" alt></p>
+<p>这里的<strong>θ</strong>是模型参数，也就是回归系数，σ是sigmoid函数。这样y=0的“概率”就是：</p>
+<p><img src="http://7xlx99.com1.z0.glb.clouddn.com/logisticQQ截图20160125200514.png" alt></p>
+<p>考查逻辑斯蒂回归模型的特点，一个事件的几率（oods）是指这件事发生的概率与不发生概率的比值，如果事件发生的概率是p，那么该事件的几率是p/(1-p)，该事件的对数几率(log odds)或者logit函数是</p>
+<p><img src="http://7xlx99.com1.z0.glb.clouddn.com/logisticQQ截图20160125163555.png" alt></p>
+<p>对于逻辑斯蒂回归而言，可以得到如下的对数几率</p>
+<p><img src="http://7xlx99.com1.z0.glb.clouddn.com/logisticQQ截图20160125163606.png" alt></p>
+<p>这就是说，在逻辑斯蒂回归模型中，输出y=1的对数几率是输入x的线性函数，或者说，输出y=1的对数几率是由输入x的线性函数表示的模型，即逻辑斯蒂回归模型。换句话说，y就是我们的关系变量，例如她喜不喜欢你，与多个因素有关，比如你的人品，你的长相，你是否有钱等。我们把这些因素表示成变量x<sub>1</sub>, x<sub>2</sub>,…, x<sub>m</sub>，那么这个女生是怎么考虑这些因素的呢，每个人心理其实都有一杆秤，例如有人比较看重你的人品，人品的权重是0.8,；也有人比较看重你有钱，有钱的权重设置成0.7等等。我们把这些对应于x<sub>1</sub>, x<sub>2</sub>,…, x<sub>m</sub>的权值叫做回归系数，表达为θ<sub>1</sub>, θ<sub>2</sub>,…, θ<sub>m</sub>。他们的加权和就是你在心目中的得分。</p>
+<h5 id="三-模型参数学习"><a href="#三-模型参数学习" class="headerlink" title="三.模型参数学习"></a>三.模型参数学习</h5><p>在参数学习时，可以用极大似然估计方法求解。假设我们有n个独立的训练样本{(<strong>x<sub>1</sub></strong>, y<sub>1</sub>) ,(<strong>x<sub>2</sub></strong>, y<sub>2</sub>),…, (<strong>x<sub>n</sub></strong>, y<sub>n</sub>)}，y={0, 1}。那每一个观察到的样本(<strong>x<sub>i</sub></strong>, y<sub>i</sub>)出现的概率是</p>
+<p><img src="http://7xlx99.com1.z0.glb.clouddn.com/logisticQQ截图20160125194639.png" alt></p>
+<p>对于整个样本集，每个样本的出现都是独立的，n个样本出现的似然函数为（n个样本的出现概率是他们各自的概率乘积）</p>
+<p><img src="http://7xlx99.com1.z0.glb.clouddn.com/logisticQQ截图20160125194648.png" alt></p>
+<p>那么上述的似然函数就是模型的代价函数（cost function），我们要求的参数就是θ*。我们稍微对上式进行转换</p>
+<p><img src="http://7xlx99.com1.z0.glb.clouddn.com/logisticQQ截图20160125194659.png" alt></p>
+<p>对L(θ)的极大值，得到θ的估计值。问题变成了以对数似然函数为木匾函数的最优化问题。用L(θ)对θ求导，得到</p>
+<p><img src="http://7xlx99.com1.z0.glb.clouddn.com/logisticQQ截图20160125195933.png" alt></p>
+<p>无法解析求解的，所以一般使用迭代的方法求解，通常采用梯度下降法和拟牛顿法。</p>
+<h5 id="四-多项逻辑斯蒂回归"><a href="#四-多项逻辑斯蒂回归" class="headerlink" title="四.多项逻辑斯蒂回归"></a>四.多项逻辑斯蒂回归</h5><p>上面介绍的是儿分类的模型，用于二类分类。可以将其推广为多项逻辑斯蒂回归模型（multi-nominal regression model），用于多分类，假设离散随机变量Y的取值是{1,2,3,…,K}那么多项逻辑斯蒂回归的模型是</p>
+<p><img src="http://7xlx99.com1.z0.glb.clouddn.com/logisticQQ截图20160125213742.png" alt></p>
+<p>同理，二项逻辑斯蒂回归的参数估计的方法也可以推广到多项逻辑斯蒂回归。</p>
+<p>&nbsp;</p>
+<h5 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h5><p>[1].<a href="http://blog.csdn.net/zouxy09/article/details/20319673" target="_blank" rel="noopener">机器学习算法与Python实践之（七）逻辑回归（Logistic Regression）</a></p>
+<p>[2].《统计学习方法》 李航 著</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/cvpr2011-good-paper.html" rel="next" title="【转】卖萌的大牛你桑不起啊 ——记CVPR2011一篇极品文章">
+                <i class="fa fa-chevron-left"></i> 【转】卖萌的大牛你桑不起啊 ——记CVPR2011一篇极品文章
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/03/alphago.html" rel="prev" title="【转】关于 AlphaGo 论文的阅读笔记">
+                【转】关于 AlphaGo 论文的阅读笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Wen Jun</p>
+              <div class="site-description motion-element" itemprop="description">Wllcome to wenjun's blog</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/wenjunoy" title="GitHub &rarr; https://github.com/wenjunoy" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:wjouyang@tencent.com" title="E-Mail &rarr; mailto:wjouyang@tencent.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#一-Logistic函数"><span class="nav-number">1.</span> <span class="nav-text">一.Logistic函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#二-Logistic-Regression-逻辑斯蒂回归"><span class="nav-number">2.</span> <span class="nav-text">二.Logistic Regression(逻辑斯蒂回归)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#三-模型参数学习"><span class="nav-number">3.</span> <span class="nav-text">三.模型参数学习</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#四-多项逻辑斯蒂回归"><span class="nav-number">4.</span> <span class="nav-text">四.多项逻辑斯蒂回归</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#参考资料："><span class="nav-number">5.</span> <span class="nav-text">参考资料：</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wen Jun</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

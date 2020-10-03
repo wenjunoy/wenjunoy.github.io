@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="The MINIST database is classify handwriten digits,has a training set of 60,000 examples ,and a test set of 10,000 examples. It is a subset of a larger set available from NIST. Vision DatasetMINISTThe">
+<meta name="keywords" content="dataset">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dataset-vision">
+<meta property="og:url" content="http://wenjunoy.com/2016/04/dataset-vision.html">
+<meta property="og:site_name" content="Wenjun&#39;s blog">
+<meta property="og:description" content="The MINIST database is classify handwriten digits,has a training set of 60,000 examples ,and a test set of 10,000 examples. It is a subset of a larger set available from NIST. Vision DatasetMINISTThe">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/20160414172256.jpg">
+<meta property="og:image" content="http://rodrigob.github.io/are_we_there_yet/build/images/stl_10.png?1363085077">
+<meta property="og:image" content="http://ufldl.stanford.edu/housenumbers/32x32eg.png">
+<meta property="og:image" content="http://www.vision.caltech.edu/Image_Datasets/Caltech256/intro_tight_crop.jpg">
+<meta property="og:image" content="http://www.vision.caltech.edu/Image_Datasets/Caltech256/intro/256_5web.ppt_files/Slide0002.gif">
+<meta property="og:updated_time" content="2019-03-13T16:01:10.480Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Dataset-vision">
+<meta name="twitter:description" content="The MINIST database is classify handwriten digits,has a training set of 60,000 examples ,and a test set of 10,000 examples. It is a subset of a larger set available from NIST. Vision DatasetMINISTThe">
+<meta name="twitter:image" content="http://7xlx99.com1.z0.glb.clouddn.com/20160414172256.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://wenjunoy.com/2016/04/dataset-vision.html">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Dataset-vision | Wenjun's blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Wenjun's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wenjunoy.com/2016/04/dataset-vision.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wen Jun">
+      <meta itemprop="description" content="Wllcome to wenjun's blog">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wenjun's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Dataset-vision
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2016-04-14 17:09:08" itemprop="dateCreated datePublished" datetime="2016-04-14T17:09:08+08:00">2016-04-14</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-03-14 00:01:10" itemprop="dateModified" datetime="2019-03-14T00:01:10+08:00">2019-03-14</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/all-categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>The MINIST database is classify handwriten digits,has a training set of 60,000 examples ,and a test set of 10,000 examples. It is a subset of a larger set available from NIST.<br><!-- excerpt --></p>
+<h1 id="Vision-Dataset"><a href="#Vision-Dataset" class="headerlink" title="Vision Dataset"></a>Vision Dataset</h1><h2 id="MINIST"><a href="#MINIST" class="headerlink" title="MINIST"></a>MINIST</h2><p>The MINIST database is classify handwriten digits,has a training set of 60,000 examples ,and a test set of 10,000 examples. It is a subset of a larger set available from NIST. The digits have been size-normalized and centered in a fixed-size image.<a href="http://yann.lecun.com/exdb/mnist/" target="_blank" rel="noopener">Original dataset page</a></p>
+<ul>
+<li>If your code is python ,you can use  download the dataset here <a href="https://s3.amazonaws.com/img-datasets/mnist.pkl.gz" target="_blank" rel="noopener">mnist.pkl.gz</a></li>
+<li><p>If you want to use the origin image(jpg). <a href="http://pan.baidu.com/s/1sl9VwW9" target="_blank" rel="noopener">origin image</a></p>
+<a id="more"></a>
+</li>
+</ul>
+<h2 id="CIFAR-10"><a href="#CIFAR-10" class="headerlink" title="CIFAR-10"></a>CIFAR-10</h2><p>The CIFAR-10 dataset consists of 60000 32x32 colour images in 10 classes, with 6000 images per class. There are 50000 training images and 10000 test images. </p>
+<p>Here are the classes in the dataset, as well as 10 random images from each:<br><img src="http://7xlx99.com1.z0.glb.clouddn.com/20160414172256.jpg" alt></p>
+<h2 id="CIFAR-100"><a href="#CIFAR-100" class="headerlink" title="CIFAR-100"></a>CIFAR-100</h2><p>This dataset is just like the CIFAR-10, except it has 100 classes containing 600 images each. There are 500 training images and 100 testing images per class. The 100 classes in the CIFAR-100 are grouped into 20 superclasses. Each image comes with a “fine” label (the class to which it belongs) and a “coarse” label (the superclass to which it belongs).</p>
+<h2 id="STL-10-dataset"><a href="#STL-10-dataset" class="headerlink" title="STL-10 dataset"></a>STL-10 dataset</h2><p>The <a href="https://cs.stanford.edu/~acoates/stl10/" target="_blank" rel="noopener">STL-10</a> dataset is an image recognition dataset for developing unsupervised feature learning, deep learning, self-taught learning algorithms.<br><img src="http://rodrigob.github.io/are_we_there_yet/build/images/stl_10.png?1363085077" alt></p>
+<h2 id="SVHN-（The-Street-View-House-Numbers-Dataset）"><a href="#SVHN-（The-Street-View-House-Numbers-Dataset）" class="headerlink" title="SVHN （The Street View House Numbers Dataset）"></a>SVHN （The Street View House Numbers Dataset）</h2><p>SVHN is a real-world image dataset for developing machine learning and object recognition algorithms with minimal requirement on data preprocessing and formatting. It can be seen as similar in flavor to MNIST (e.g., the images are of small cropped digits), but incorporates an order of magnitude more labeled data (over 600,000 digit images) and comes from a significantly harder, unsolved, real world problem (recognizing digits and numbers in natural scene images). SVHN is obtained from house numbers in Google Street View images.<br><img src="http://ufldl.stanford.edu/housenumbers/32x32eg.png" alt></p>
+<ul>
+<li>10 classes, 1 for each digit. Digit ‘1’ has label 1, ‘9’ has label 9 and ‘0’ has label 10.</li>
+<li>73257 digits for training, 26032 digits for testing, and 531131 additional, somewhat less difficult samples, to use as extra training data</li>
+</ul>
+<h2 id="Caltech101"><a href="#Caltech101" class="headerlink" title="Caltech101"></a>Caltech101</h2><p><a href="http://www.vision.caltech.edu/Image_Datasets/Caltech101/" target="_blank" rel="noopener">Link</a><br> <strong>Description</strong><br> Pictures of objects belonging to 101 categories. About 40 to 800 images per category. Most categories have about 50 images. Collected in September 2003 by Fei-Fei Li, Marco Andreetto, and Marc ‘Aurelio Ranzato.  The size of each image is roughly 300 x 200 pixels.</p>
+<h2 id="Caltech256"><a href="#Caltech256" class="headerlink" title="Caltech256"></a>Caltech256</h2><p><a href="http://www.vision.caltech.edu/Image_Datasets/Caltech256/" target="_blank" rel="noopener">Link</a><br><img src="http://www.vision.caltech.edu/Image_Datasets/Caltech256/intro_tight_crop.jpg" alt><br><img src="http://www.vision.caltech.edu/Image_Datasets/Caltech256/intro/256_5web.ppt_files/Slide0002.gif" alt></p>
+<h1 id="updating"><a href="#updating" class="headerlink" title="updating"></a>updating</h1>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/all-tags/dataset/" rel="tag"># dataset</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/Markdown.html" rel="next" title="认识Markdown">
+                <i class="fa fa-chevron-left"></i> 认识Markdown
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/05/cnn-text-nlp.html" rel="prev" title="Convolutional neural network for NLP">
+                Convolutional neural network for NLP <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Wen Jun</p>
+              <div class="site-description motion-element" itemprop="description">Wllcome to wenjun's blog</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/wenjunoy" title="GitHub &rarr; https://github.com/wenjunoy" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:wjouyang@tencent.com" title="E-Mail &rarr; mailto:wjouyang@tencent.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Vision-Dataset"><span class="nav-number">1.</span> <span class="nav-text">Vision Dataset</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MINIST"><span class="nav-number">1.1.</span> <span class="nav-text">MINIST</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CIFAR-10"><span class="nav-number">1.2.</span> <span class="nav-text">CIFAR-10</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CIFAR-100"><span class="nav-number">1.3.</span> <span class="nav-text">CIFAR-100</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#STL-10-dataset"><span class="nav-number">1.4.</span> <span class="nav-text">STL-10 dataset</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SVHN-（The-Street-View-House-Numbers-Dataset）"><span class="nav-number">1.5.</span> <span class="nav-text">SVHN （The Street View House Numbers Dataset）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Caltech101"><span class="nav-number">1.6.</span> <span class="nav-text">Caltech101</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Caltech256"><span class="nav-number">1.7.</span> <span class="nav-text">Caltech256</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#updating"><span class="nav-number">2.</span> <span class="nav-text">updating</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wen Jun</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

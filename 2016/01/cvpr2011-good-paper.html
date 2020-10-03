@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="CVPR2011正在如火如荼的进行中，在网上能看到的部分文章中，我终于找到一篇让我眼前冒光的文章。虽然，其实，也许，主要的理由是我好不容易能看懂一篇。不过，这并不妨碍该文章定会成为今年CVPR的一朵奇葩这件事。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【转】卖萌的大牛你桑不起啊 ——记CVPR2011一篇极品文章">
+<meta property="og:url" content="http://wenjunoy.com/2016/01/cvpr2011-good-paper.html">
+<meta property="og:site_name" content="Wenjun&#39;s blog">
+<meta property="og:description" content="CVPR2011正在如火如荼的进行中，在网上能看到的部分文章中，我终于找到一篇让我眼前冒光的文章。虽然，其实，也许，主要的理由是我好不容易能看懂一篇。不过，这并不妨碍该文章定会成为今年CVPR的一朵奇葩这件事。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="file:///C:/Users/wen/AppData/Local/YNote/data/597531626@qq.com/f98975201e2343acbc03656aa0ec58ed/b_large_mbde_664b0001b88d5c42.jpg.jpeg">
+<meta property="og:image" content="https://wenjun.blog.ustc.edu.cn/wp-content/uploads/2016/01/b_large_MBdE_664b0001b88d5c42.jpg.jpeg">
+<meta property="og:image" content="https://wenjun.blog.ustc.edu.cn/wp-content/uploads/2016/01/b_large_MwwS_37e50001bfdb5c3f.jpg.jpeg">
+<meta property="og:image" content="https://wenjun.blog.ustc.edu.cn/wp-content/uploads/2016/01/b_large_bLse_44f00001bef05c71.jpg.jpeg">
+<meta property="og:updated_time" content="2019-03-13T16:01:10.480Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【转】卖萌的大牛你桑不起啊 ——记CVPR2011一篇极品文章">
+<meta name="twitter:description" content="CVPR2011正在如火如荼的进行中，在网上能看到的部分文章中，我终于找到一篇让我眼前冒光的文章。虽然，其实，也许，主要的理由是我好不容易能看懂一篇。不过，这并不妨碍该文章定会成为今年CVPR的一朵奇葩这件事。">
+<meta name="twitter:image" content="file:///C:/Users/wen/AppData/Local/YNote/data/597531626@qq.com/f98975201e2343acbc03656aa0ec58ed/b_large_mbde_664b0001b88d5c42.jpg.jpeg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://wenjunoy.com/2016/01/cvpr2011-good-paper.html">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>【转】卖萌的大牛你桑不起啊 ——记CVPR2011一篇极品文章 | Wenjun's blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Wenjun's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wenjunoy.com/2016/01/cvpr2011-good-paper.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wen Jun">
+      <meta itemprop="description" content="Wllcome to wenjun's blog">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wenjun's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【转】卖萌的大牛你桑不起啊 ——记CVPR2011一篇极品文章
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2016-01-06 17:45:00" itemprop="dateCreated datePublished" datetime="2016-01-06T17:45:00+08:00">2016-01-06</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-03-14 00:01:10" itemprop="dateModified" datetime="2019-03-14T00:01:10+08:00">2019-03-14</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/all-categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>CVPR2011正在如火如荼的进行中，在网上能看到的部分文章中，我终于找到一篇让我眼前冒光的文章。虽然，其实，也许，主要的理由是我好不容易能看懂一篇。不过，这并不妨碍该文章定会成为今年CVPR的一朵奇葩这件事。<a id="more"></a>不过它肯定拿不了best paper啦，因为它只是篇poster，但我猜也许是组委会认为如果让他们当oral，大牛现场卖萌会雷死观众，并可能引起大面积恐慌。 </p>
+<p>鉴于我没有找到更好的平台共享这一发现，就只好先放到校内了。不过这个主题不光是对计算机视觉的人有意义，只要是搞数据的人都会有些用处吧。 </p>
+<p>文章题目是：Unbiased Look at Dataset Bias，无偏见的研究数据集偏见。首先看看作者，一个是MIT的Antonio Torralba，另一个是CMU的Alexei A. Efros。 MIT和CMU在计算机视觉领域是两个绝对的巨人，无人能望其项背。这两个人这几年刚拿到副教授职位，而且又是那种论文又高产又高质的家伙。要注意哦，这篇文章没有研究僧，也就是说，这是一篇大牛和大牛的强强联合之作。也正是如此，该文章发挥出了大牛卖萌的极致。满篇充斥着“矮油”(alas)，“让我们玩儿个游戏/玩具实验(toy experiment)”等等，各种你很难在一般论文里看到的搞笑语言。特别是文章的致谢和声明： </p>
+<p>The authors would like to thank the Eyjafjallajokull volcano as well as the wonderful kirs at the Buvette in Jardin du Luxembourg for the motivation (former) and the inspiration (latter) to write this paper. “作者要感谢埃Eyjafjallajokull的火山（就是2010年冰岛那个倒霉的让欧洲航线大面积瘫痪的火山）以及Buvette in Jardin du Luxembourg（法国一个酒吧）的美味基尔酒，前者给了我们写作的动机，而后者给了我们灵感。”我猜测是那个时候他们在法国开会，结果被火山给关在那儿了，几个无聊的人只好跑去酒吧喝酒，于是在酒精的刺激下想出了这个题目。唉，大牛就是大牛，这种时候都能搞出这样一篇文章，让我等草民怎么活啊，以后天天去喝酒好了。 </p>
+<p>Disclaimer: No graduate students were harmed in the production of this paper. Authors are listed in order of increasing procrastination ability. </p>
+<p>声明：没有研究僧在制作论文的过程中受到伤害（喂喂，难道研究僧是保护动物么？那有木有研究僧保护协会啊？啊？有木有？）。作者是按照拖延症的程度顺次递增排列（看来大牛们也有同样问题）。 </p>
+<p>如此搞笑的文章，真的让人欲罢不能。关键是两位大牛在疯狂卖萌的同时，适时的提出了一个计算机视觉界一个极富有争议的问题，并做了很好的分析，可能会在未来很多年掀起一个风气。不得不说，两位大牛挖了一个超级NB的大坑。来来来，让我们一起跳下去吧。 </p>
+<p>计算机视觉里面很大一块是在做物体检测、识别、分类(object detection, recognition, classification)。为了公平的比较不同的算法，大家就设计出了很多数据集(dataset)作为基准(benchmark)来比较算法的性能。所以，当你阅读了灰常多的论文后，你会发现，大家的实验部分都会说：在某某个数据集上我的算法是最牛X的；在某某数据集上我的算法和当前最牛X的其他地方差不多，但速度快/准确率高/误报率低；虽然我的算法在某数据集一般，但几个数据集一平均，我的最牛X…… 但是，这些数据集真的可以评价算法的优劣么？两位大牛向这些数据集提出了挑战。 </p>
+<p>首先，咱玩儿个游戏，叫连线配对，下面的每组图片都是从同一个数据集挑出的，请把他们和正确的数据集名称对应起来：  <img src="file:///C:/Users/wen/AppData/Local/YNote/data/597531626@qq.com/f98975201e2343acbc03656aa0ec58ed/b_large_mbde_664b0001b88d5c42.jpg.jpeg" alt> </p>
+<p><a href="https://wenjun.blog.ustc.edu.cn/wp-content/uploads/2016/01/b_large_MBdE_664b0001b88d5c42.jpg.jpeg" target="_blank" rel="noopener"><img src="https://wenjun.blog.ustc.edu.cn/wp-content/uploads/2016/01/b_large_MBdE_664b0001b88d5c42.jpg.jpeg" alt></a></p>
+<p>在他们的实验室（大家都是搞这些的），所有人配对的正确率超过75%。其实随便看看也能看出门道，有的数据集就是车，有的就是自然景色，有的就是局部场景，有的就是实物，有的就是干净背景，有的就是专业摄影师拍摄的，有的就是随便找的等等。所以，尽管大多数数据集都号称“我们尽可能的多样化，非刻意的人工的(in the wild)寻找样本”，但事实上还是带了偏见了。为了验证这个假设，他们用最简单的一些特征训练了一个12路分类器，结果，分类效果还不错，每类分正确的比例最小也有20%，有6个超过30%，1个超过99%，要知道随机猜对的概率只有1/12 =8%。而且当训练数据慢慢增多到每类1000个时，正确率还没有收敛的迹象。一般来说，分类效果越好，证明两个类别的区分度越高，也可以说不同的数据集来自“不同的世界”，而随着样本量增加，还很有可能区分度越来越高。我勒个去，你们都说自己“多样化”的描述了这个世界，而实验却证明你们表现了不同世界，你们太坑爹了！特别是Caltech101，人家分类器正确率都99%了，你到底描述了一个多么简单的世界啊！桑不起啊桑不起！大牛指出，和机器学习领域不同，它们的数据集就是它们自己的世界。而视觉领域不同，于是大牛把这些“伪世界”称为“Corel世界”“Caltech101世界”“PASCAL VOL世界”等等，还是非常形象的。 </p>
+<p>那么换个角度，不同数据集中的同一个物体（例如车、人）会不会相对比较相似呢，如果相似不就说明他们还是展现了同一个世界，只不过角度不同嘛。<br><a href="https://wenjun.blog.ustc.edu.cn/wp-content/uploads/2016/01/b_large_MwwS_37e50001bfdb5c3f.jpg.jpeg" target="_blank" rel="noopener"><img src="https://wenjun.blog.ustc.edu.cn/wp-content/uploads/2016/01/b_large_MwwS_37e50001bfdb5c3f.jpg.jpeg" alt></a> </p>
+<p>遗憾的是，即使是同一种物体，偏见还是大大的存在，人眼都看的出来！为了谨慎，作者还是对上述5个例子做了相同实验，结果分类器正确率61% 远大于随机猜对的20%。所以，别说你们什么“多样化”了，神马都是浮云，事实证明，没有偏见的数据集到现在还没出生呢。 </p>
+<p>文章的小标题写作“序幕”(prologue)…..“尾声”(epilogue)，二位果然是在演一台卖萌大戏啊。文章首先回顾了视觉领域数据集的发展史，然后声讨了一下数据集带给这个领域的坏处。“这个领域过度的追求数据评估，浪费很多时间在precision-recall曲线上而不是在像素上”，“现在的研究都是在前人基础上，而很少有完全创新工作，因为全新的工作刚开始肯定拼不过那些经过认真细致调教的算法”，“大家越来越多的关注自己的算法在某一个数据集上胜出，而从不考虑它是不是有统计显著性”。大牛啊，你们道出了我们的心声啊！！大牛还说，从发展史看出，尽管我们不停的说要避免“偏见”，但每一个新数据集都不可避免的进入了另一种“偏见”，如果不搞明白到底错在哪儿，我们注定会继续错下去的。 </p>
+<p>如果要谈“偏见”我们就得有个标准，即观测者和任务（人看到的世界和鸟看到的肯定不同）。好吧，那我们就定义“给定人类感受到的典型视觉环境世界，任务是去检测其中的常见物体”。那么“偏见”就是拿一个数据集和真实视觉世界作比较。而真实世界，呃，我们得拿另一个数据集做代表，而另一个数据集，呃，它还是带偏见的。肿么办？肿么办？还是大牛比较聪明，他们提出了如下方法，即交叉检验。 </p>
+<p>用一个数据集上训练的分类器去分类另一个数据集。因为我们前提假定这些数据集都是在描绘同一个世界，那么就可以分出优劣了。具体的任务分为两个，一个叫做分类(classification)，即给定一张图，指它是否包含某个特定物体。一个叫做检测(detection)，即给定一张图，找出所有特定物体并指出它们的位置。 实验结果表明，两个任务基本都是，在任一个数据集上做的分类器，在其数据集上的效果都会变差，平均而言下降了40%左右，是非常显著的。而且要不是因为有Caltech101和MSRC这两个各种简单的数据集罩着，可能下降更多。 </p>
+<p>作者分析偏见的罪魁祸首估计是这么几个：1.“选择偏见”，大家更偏爱选择某类数据，例如风景、街景、或用关键词搜索的网络图片。2.“拍照偏见”，摄影师更喜欢用相似角度拍同一种物体。3.“标签偏见”，特别是语义分类的时候，同种东西可能有不同称呼，例如“草地”“草坪”，“绘画”“图片”。4.“负样本偏见”，对于分类器而言，想要分出来的东西是正样本，其余都是负样本。一般来说，负样本应该是无穷大的，但实际上，我们只能用有限多的负样本。那么这些有限的负样本有代表性么？足够了么？ </p>
+<p>我们再做个实验，对每个数据集用它们自己的正负样本训练分类器，但测试时，从所有的数据中挑选负样本。如果错分率增加，说明其他数据集的负样本被这个分类器当成了正样本，进一步说明不同数据集的负样本是不同的。结果也证实了我们的猜测，有3个数据集中招了，错分率增加了20%，但ImageNet，Caltech101, MSRC没有中招。据分析，ImageNet确实负样本丰富多样，这个实验没有给它造成困扰。但是，另外两个嘛，你们太特么简单了，简单到不会分错啊。简单的数据集尼桑不起啊！ </p>
+<p>至于是否足够？这里作者提出了一个有意思的问题。当我们要分类“船”的时候，假如你的船样本都在水里，你怎么知道“懒惰的”分类器不是提取了“水”或者“岸”的特征呢？因此这确实很重要，但限于要求有大量的人力标定工作，暂时还没有做，不过有了Mechanical Turk我们可以以后慢慢来。 </p>
+<p>讨论完数据集的偏见，我们可以讨论一下数据集的价值，特别偏见的价值就少，无偏见的价值就应该高。想象一下如果我们想提高一个分类器的准确率，当然牛X人选择改进特征、物体表示方法以及学习算法，而简单些的则是扩大样本数量。但讨厌的是，样本数量的增大和准确率的提高是一个倒霉的对数关系，要想增加一点儿准确率，需要指数级增长的样本量；另一方面，如前所述，如果增加了不是同一种“偏见”关系的样本，可能还会造成负增长。 </p>
+<p>那么问题来了，我们到底能不能用一个数据集的样本去提高另一个数据集的准确率呢？或者说怎么定义它们的关系呢？神奇的大牛给了我们如下方法：  </p>
+<p>假设从A数据集用1000个样本训练出的分类器，测A的数据集得到的平均precision-recall值（一种正确率）是30，又假设用B数据集训练出的分类器测A数据集，要想得到30的值需要5000个样本。 那么这两个数据集的关系就是1000/5000 = 0.2，也就是说一个A中的样本值0.2个B中的样本。<br><a href="https://wenjun.blog.ustc.edu.cn/wp-content/uploads/2016/01/b_large_bLse_44f00001bef05c71.jpg.jpeg" target="_blank" rel="noopener"><img src="https://wenjun.blog.ustc.edu.cn/wp-content/uploads/2016/01/b_large_bLse_44f00001bef05c71.jpg.jpeg" alt></a> </p>
+<p>这样一来，数据集市场就呈现出这样一种兑换关系，要想在PASCAL的市场上将用1250个训练出的分类器增加10%的准确率，那么你需要1/0.26<em>1250</em>10=50000个LabelMe样本，好不值钱啊！而且你会发现，每个数据集都是“我的市场我做主”，其他数据集在自己市场永远是不值钱的。所以如果你要问，如果用当前的数据集训练一个真实世界的分类器，这些数据集值多少钱呢？那我的回答恐怕只能是“聊胜于无”了。 </p>
+<p>也许会有人说，这不是数据集的错，而是你的表示物体的方法、训练算法有问题，最终都会“过学习”使得看上去是数据集的错。你看，我们人类学习时候也只见过一小部分实例，但我们的视觉系统克服了这个问题学到了正确的东西。好吧，大牛说，咱退一步，至少现在还不要把所有的错都推给算法，毕竟，如果你的数据集只给出了“从后面观看的赛车”是汽车，你不能期待我的算法能告诉你“侧面看过去的家庭轿车”也是汽车吧。 </p>
+<p>而就目前情况来看，哪些数据集不错，哪些比较垃圾呢？大牛说，毋庸置疑，Caltech101和MSRC，你们该下岗下岗，该回家回家，赶紧洗洗睡吧。而PASCAL VOC, ImageNet, SUN09看上去还凑合，也许我们正朝着正确的路在走。 </p>
+<p>那我们是不是应该关心我们的数据集的质量呢？大牛说，如果你只关心把你的数据集变成一堆特征向量并拿去机器学习的算法里去学习，那就不用管它了。而如果你想弄一种能理解真实世界的算法，那数据集的质量就至关重要了  </p>
+<p>那么我们小弱们到底该怎么做呢？大牛解释道，你们应该先试着做做交叉检验，我们很愿意公开代码和数据集（小弱们开始欢呼雀跃）。大牛继续说道，我们再给出几个建议供你们制作数据集时参考：对于“选择偏见”建议你们从多种源获取，例如不同国家的不同搜索引擎，或者你们找一堆没人标记过的图片，然后人肉做标记；对于“拍照偏见”，（嘿嘿，大牛莞尔一笑）你们有没有注意过，google image搜索“mug”绝大多数杯子的手柄都在右边。对于这类问题，我们建议你们做做图像变换，翻转啦，扭曲啦神马的。而对于“负样本偏见”，你们可以加入其他数据的负样本，或者用一些标准算法从没标记过的样本中搜索那些不容易区分的负样本。但这同样是带偏见的，即“增加你算法的难度”偏见。 </p>
+<p>最后，大牛略作谦虚的表示，尽管标题是“无偏见的”，但也许我们自己的偏见已然融入了文字中。不过本文的目的是希望大家来一起讨论一下这个重要但又一直被忽略的问题。 </p>
+<p>至此，文章戛然而止，留给了我们无限遐想的空间。此文一出，炸开了好大一个坑，不知道多久会被灌满。冥冥之中也得罪了不少人，“我们还想靠着不同数据集的结果吃饭呢！”“我们的方法只能在这个数据集上行得通，你还让不让我们发表了！”“我的结果就是比你的好1.7%，怎么样怎么样！”当然，一群小牛也要跟上，赶紧做交叉检验，赶紧提出各种理论，争取早日灌满此坑。而至于我们这些小弱们，唉，还是不玩儿这么高端的了。老板让干嘛就干嘛，偶尔看看如此卖萌的大牛们就心满意足了。各种羡慕去参会的人们，你们赶紧发游记发pp发总结！！！！ </p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/12/sae-word-blog.html" rel="next" title="通过新浪SAE创建WordPress个人博客">
+                <i class="fa fa-chevron-left"></i> 通过新浪SAE创建WordPress个人博客
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/01/logistic-sigmoid-function.html" rel="prev" title="Logistic函数（sigmoid函数）">
+                Logistic函数（sigmoid函数） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Wen Jun</p>
+              <div class="site-description motion-element" itemprop="description">Wllcome to wenjun's blog</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/wenjunoy" title="GitHub &rarr; https://github.com/wenjunoy" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:wjouyang@tencent.com" title="E-Mail &rarr; mailto:wjouyang@tencent.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wen Jun</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

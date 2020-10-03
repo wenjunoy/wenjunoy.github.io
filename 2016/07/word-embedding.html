@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="神经网络模型不仅可以得到语言模型的参数还顺便得到了词向量，即word embedding（南大周志华翻译成词嵌入），亦即得到了词的向量表示。最早用神经网络的思路训练神经网络的模型是百度IDL的徐伟2000提出的。而这篇《A neural probabilistic langulage model》是Bingio在2003年发表在JMLR上的文章。   本文需要概率论与随机过程的相关知识  语言模型">
+<meta name="keywords" content="DeepLearning,NLP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Word Embedding (A neural probabilistic langulage model)">
+<meta property="og:url" content="http://wenjunoy.com/2016/07/word-embedding.html">
+<meta property="og:site_name" content="Wenjun&#39;s blog">
+<meta property="og:description" content="神经网络模型不仅可以得到语言模型的参数还顺便得到了词向量，即word embedding（南大周志华翻译成词嵌入），亦即得到了词的向量表示。最早用神经网络的思路训练神经网络的模型是百度IDL的徐伟2000提出的。而这篇《A neural probabilistic langulage model》是Bingio在2003年发表在JMLR上的文章。   本文需要概率论与随机过程的相关知识  语言模型">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/20160725195255.jpg">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/20160725201358.jpg">
+<meta property="og:updated_time" content="2019-03-13T16:01:10.483Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Word Embedding (A neural probabilistic langulage model)">
+<meta name="twitter:description" content="神经网络模型不仅可以得到语言模型的参数还顺便得到了词向量，即word embedding（南大周志华翻译成词嵌入），亦即得到了词的向量表示。最早用神经网络的思路训练神经网络的模型是百度IDL的徐伟2000提出的。而这篇《A neural probabilistic langulage model》是Bingio在2003年发表在JMLR上的文章。   本文需要概率论与随机过程的相关知识  语言模型">
+<meta name="twitter:image" content="http://7xlx99.com1.z0.glb.clouddn.com/20160725195255.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://wenjunoy.com/2016/07/word-embedding.html">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Word Embedding (A neural probabilistic langulage model) | Wenjun's blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Wenjun's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wenjunoy.com/2016/07/word-embedding.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wen Jun">
+      <meta itemprop="description" content="Wllcome to wenjun's blog">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wenjun's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Word Embedding (A neural probabilistic langulage model)
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2016-07-25 20:38:00" itemprop="dateCreated datePublished" datetime="2016-07-25T20:38:00+08:00">2016-07-25</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-03-14 00:01:10" itemprop="dateModified" datetime="2019-03-14T00:01:10+08:00">2019-03-14</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/all-categories/NLP/" itemprop="url" rel="index"><span itemprop="name">NLP</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>神经网络模型不仅可以得到语言模型的参数还顺便得到了词向量，即word embedding（南大周志华翻译成<strong>词嵌入</strong>），亦即得到了词的向量表示。最早用神经网络的思路训练神经网络的模型是百度IDL的徐伟2000提出的。而这篇《A neural probabilistic langulage model》是Bingio在2003年发表在JMLR上的文章。</p>
+<!-- excerpt -->
+<blockquote>
+<p>本文需要概率论与随机过程的相关知识</p>
+</blockquote>
+<h2 id="语言模型"><a href="#语言模型" class="headerlink" title="语言模型"></a>语言模型</h2><p>语言模型听起来非常高大上，其实做的事情很简单，计算一个句子出现的概率，或者说一组“单词”能组成一个句子的概率，例如：对于下面的两句话，s1.我在图书馆看书；s2.我在图书馆做饭。很明显s2不符合常理，而s1很合理，怎么会在图书馆做饭能，不应该是在厨房吗？在厨房做饭是大家基于平时的经验得到的结果，也就是该句子发生的概率更大或者更加合理。用概率的形式表达就是：$p(s1)&gt;p(s2)$。但是一个句子出现的概率怎么计算呢？这就是语言模型的任务。</p>
+<p>语言模型是根据一定的训练集合（语料库）得到的模型，该模型一般可以：<br>1).预测一个句子出现的概率；<br>2).根据不完整的句子前几个词来预测下一个词。一般的语言模型也就是<strong>统计语言模型</strong>。</p>
+<p>统计语言模型可以计算一个句子的概率，接下来我们形式化的表示该模型。假设一个句子由T个词构成$S=(w_1,w_2,…,w_T)$，其中$w_i$表示一个单词，用$w_i^j$第$i$个词到第$j$个词的序列，则$w_1,w_2,…,w_T$的联合概率也就是S出现的概率计算如下：<br>$$p(S)=p(w_1^T)=p(w_1,w_2,…,w_T)$$</p>
+<p>这就是句子的概率，根据 bayes公式得到：<br>$$p(w_1^T) = p(w_1)p(w_2|w_1)p(w_3|w_1^2)…p(w_T|w_1^{T-1})$$</p>
+<p>其中的条件概率$p(w_1),p(w_2|w_1),p(w_3|w_1^2),…,p(w_T|w_1^{T-1})$就是语言模型的参数，如果得到了这些参数，我们就能够知道该句子的概率。上述例子s1=”我在/图书馆/看书”的概率计算如下：<br>$p(s1)=p(我在)<em>p(图书馆|我在)</em>p(看书|我在/图书馆)$</p>
+<p>常见的参数求解的方法有<strong>n-gram模型</strong>，决策树，最大熵模型以及本文要介绍的<strong>神经网络模型</strong>。为了对参数的求解有更好理解，先介绍n-gram 模型。</p>
+<h2 id="N-gram-模型"><a href="#N-gram-模型" class="headerlink" title="N-gram 模型"></a>N-gram 模型</h2><p>由bayes定理有:<br>$$p(w_k|w_1^{k-1})=\frac {p(w_1^k)}{p(w_1^{k-1})}$$</p>
+<p>$p(w_1^k)$表示词序列$w_1^k$出现的概率，这个概率可以通过预料中的计算所有该序列的数目得到。</p>
+<p>$$p(w_1^k)=\frac {count(w_1^k)}{词序列综合}$$</p>
+<p>$count(w_1^k)$表示词序列$w_1^k$在语料中出现的次数。同理：</p>
+<p>$$p(w_1^{k-1})=\frac {count(w_1^{k-1})}{词序列综合}$$</p>
+<p>这样两个概率相除就得到了条件概率：<br>$$p(w_k|w_1^{k-1})=\frac {count(w_1^k)}{count(w_1^{k-1})}$$</p>
+<p>通过上式我们知道一个词的出现是和该词前面所有的词都相关，如果假设一个词的出现只和前面固定的词相关，比如在 Markov假设中，一个状态只和前一个状态相关。如果设定这样的一个固定值，可以降低不少的复杂度。另外一方面，从常识来看，一个词的出现只与它相邻的词相关，与较远距离的词几乎没有关系。这就是n-gram模型的基本思想，他做了一个n-1阶的Markov假设。</p>
+<p>$$p(w_k|w_1^{k-1})=\frac {count(w_{k-n+1}^k)}{count(w_{k-n+1}^{k-1})}$$</p>
+<p>n的大小完全决定于参数的规模，一般来说，n越大模型的效果也更好。但是由于其复杂度，一般n也不会取太大。</p>
+<p>以上面的例子s1=”我在/ 图书馆/ 看书”中， 条件概率$p(看书|我在/图书馆)= \frac {count(我在/图书馆/看书)}{count(我在/图书馆)}$。</p>
+<p>而1-gram模型中条件概率可以近似成 $p(看书|我在/图书馆)=p(看书|图书馆)=\frac {count(图书馆/看书)}{count(图书馆)}$。</p>
+<h2 id="神经网络模型（A-neural-probabilistic-langulage-model）"><a href="#神经网络模型（A-neural-probabilistic-langulage-model）" class="headerlink" title="神经网络模型（A neural probabilistic langulage model）"></a>神经网络模型（A neural probabilistic langulage model）</h2><p>神经网络模型不仅可以得到语言模型的参数还顺便得到了词向量，即word embedding（南大周志华翻译成<strong>词嵌入</strong>），亦即得到了词的向量表示。最早用神经网络的思路训练神经网络的模型是百度IDL的徐伟2000提出的。而这篇《A neural probabilistic langulage model》是Bingio在2003年发表在JMLR上的文章。</p>
+<p>Bengio的神经网络模型仍然是基于n-gram模型。<br><img src="http://7xlx99.com1.z0.glb.clouddn.com/20160725195255.jpg" alt></p>
+<p>图中的w<sub>t-n+1</sub>,…,w<sub>t-1</sub>表示$w_t$的前n-1个词，现在同样的通过前n-1个词来预测下一个词$w_t$。以前n-1个词为输入层，中间一个隐藏层，输出层是softmax层，用来预测下一个词。或者简化成如下的四层：输入层-投影层-隐藏层-输出层。假设词可以用m维的向量来表示，输入层到投影层的过程就是将n-1个词的表示连接起来得到一个(n-1)m维的向量$X_w$，投影层到隐藏层是一个全连接的过程，得到一个$n_t$维度的向量$Z_w$，参数是W和p，然后隐藏层到输出层也是全连接的方式，输出层的维度等于字典的大小N，参数是U和q。</p>
+<p><img src="http://7xlx99.com1.z0.glb.clouddn.com/20160725201358.jpg" alt></p>
+<p>其中前向计算的过程如下：<br>$$z_w = tanh(Wx_w+p)$$</p>
+<p>$$y_w = Uz_w+q$$<br>记过计算得到一个长度为N的向量$y_w$，用softmax归一化之后得到每个单词的概率。<br>$$p(w_t|w_{t-n+1},…w_{t-2},w_{t-1}) = \frac {e^{y_w^i}}{\sum e^{y_w^i}}$$</p>
+<p>$i$表示在字典中的第$i$个词。这里需要求的参数包括：1)词向量$v(w)$，2)神经网络的参数$(W,p,U,q)$，用随机梯度下降的方法就能求解了。</p>
+<p>优点：<br>1.直接得到了词向量的表示和语言模型。<br>2.基于词向量的模型自带平滑的功能，得到的概率不可能为零。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>1.<a href="http://www.cnblogs.com/peghoty/p/3857839.html" target="_blank" rel="noopener">word2vec 中的数学原理详解</a><br>2.<a href="http://licstar.net/archives/328" target="_blank" rel="noopener">Deep Learning in NLP （一）词向量和语言模型</a><br>2.<a href="http://www.jmlr.org/papers/volume3/bengio03a/bengio03a.pdf" target="_blank" rel="noopener">NNLM: Y. Bengio, R. Ducharme, P. Vincent. A neural probabilistic language model, JMLR 2003</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/all-tags/DeepLearning/" rel="tag"># DeepLearning</a>
+          
+            <a href="/all-tags/NLP/" rel="tag"># NLP</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/word-representation.html" rel="next" title="Word Representation">
+                <i class="fa fa-chevron-left"></i> Word Representation
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/machine-learning.html" rel="prev" title="机器学习——机器学习概论">
+                机器学习——机器学习概论 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Wen Jun</p>
+              <div class="site-description motion-element" itemprop="description">Wllcome to wenjun's blog</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/wenjunoy" title="GitHub &rarr; https://github.com/wenjunoy" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:wjouyang@tencent.com" title="E-Mail &rarr; mailto:wjouyang@tencent.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#语言模型"><span class="nav-number">1.</span> <span class="nav-text">语言模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#N-gram-模型"><span class="nav-number">2.</span> <span class="nav-text">N-gram 模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#神经网络模型（A-neural-probabilistic-langulage-model）"><span class="nav-number">3.</span> <span class="nav-text">神经网络模型（A neural probabilistic langulage model）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wen Jun</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

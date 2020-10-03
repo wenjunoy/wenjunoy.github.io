@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="使用新浪SAE搭建Wordpress博客有几大好处：1.便宜！2.可以绑定独立域名（未备案的域名也可以）3.一键安装Wordpress程序，简单到不能再简单了，不用懂程序。  使用新浪SAE搭建Wordpress博客有几大好处：1.便宜！2.可以绑定独立域名（未备案的域名也可以）3.一键安装Wordpress程序，简单到不能再简单了，不用懂程序。 对于无课玩家（穷）来说，要花钱的东西总会非常谨慎。">
+<meta name="keywords" content="Blog">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通过新浪SAE创建WordPress个人博客">
+<meta property="og:url" content="http://wenjunoy.com/2015/12/sae-word-blog.html">
+<meta property="og:site_name" content="Wenjun&#39;s blog">
+<meta property="og:description" content="使用新浪SAE搭建Wordpress博客有几大好处：1.便宜！2.可以绑定独立域名（未备案的域名也可以）3.一键安装Wordpress程序，简单到不能再简单了，不用懂程序。  使用新浪SAE搭建Wordpress博客有几大好处：1.便宜！2.可以绑定独立域名（未备案的域名也可以）3.一键安装Wordpress程序，简单到不能再简单了，不用懂程序。 对于无课玩家（穷）来说，要花钱的东西总会非常谨慎。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/github/20151202171000.png">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/github/QQ%E6%88%AA%E5%9B%BE20151202173950.png">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/github/QQ%E6%88%AA%E5%9B%BE20151202174256.png">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/github/QQ%E6%88%AA%E5%9B%BE20151202174326.png">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/github/QQ%E6%88%AA%E5%9B%BE20151202174736%20%281%29.png">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/github/QQ%E6%88%AA%E5%9B%BE20151202174927.png">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/github/QQ%E6%88%AA%E5%9B%BE20151202174959.png">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/github/QQ%E6%88%AA%E5%9B%BE20151202175018.png">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/github/QQ%E6%88%AA%E5%9B%BE20151202175100.png">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/github/QQ%E6%88%AA%E5%9B%BE20151202181032.png">
+<meta property="og:image" content="http://7xlx99.com1.z0.glb.clouddn.com/github/QQ%E6%88%AA%E5%9B%BE20151202181118.png">
+<meta property="og:updated_time" content="2019-03-13T16:01:10.483Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="通过新浪SAE创建WordPress个人博客">
+<meta name="twitter:description" content="使用新浪SAE搭建Wordpress博客有几大好处：1.便宜！2.可以绑定独立域名（未备案的域名也可以）3.一键安装Wordpress程序，简单到不能再简单了，不用懂程序。  使用新浪SAE搭建Wordpress博客有几大好处：1.便宜！2.可以绑定独立域名（未备案的域名也可以）3.一键安装Wordpress程序，简单到不能再简单了，不用懂程序。 对于无课玩家（穷）来说，要花钱的东西总会非常谨慎。">
+<meta name="twitter:image" content="http://7xlx99.com1.z0.glb.clouddn.com/github/20151202171000.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://wenjunoy.com/2015/12/sae-word-blog.html">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>通过新浪SAE创建WordPress个人博客 | Wenjun's blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Wenjun's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wenjunoy.com/2015/12/sae-word-blog.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wen Jun">
+      <meta itemprop="description" content="Wllcome to wenjun's blog">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wenjun's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">通过新浪SAE创建WordPress个人博客
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2015-12-05 20:47:13" itemprop="dateCreated datePublished" datetime="2015-12-05T20:47:13+08:00">2015-12-05</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-03-14 00:01:10" itemprop="dateModified" datetime="2019-03-14T00:01:10+08:00">2019-03-14</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/all-categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>使用新浪SAE搭建Wordpress博客有几大好处：1.便宜！2.可以绑定独立域名（未备案的域名也可以）3.一键安装Wordpress程序，简单到不能再简单了，不用懂程序。</p>
+<!-- excerpt -->
+<p>使用新浪SAE搭建Wordpress博客有几大好处：1.便宜！2.可以绑定独立域名（未备案的域名也可以）3.一键安装Wordpress程序，简单到不能再简单了，不用懂程序。</p>
+<p>对于无课玩家（穷）来说，要花钱的东西总会非常谨慎。新浪SAE是使用云豆支付的，人民币与云豆汇率恒定为： 1元 = 100云豆。先别紧张，注册新浪就送你500云豆，实名认证再送你2000云豆，这样就一共有了2500的云豆了，你也可以通过邀请好友注册，邀请一个用户送100的云豆。而且新浪SAE的自费也很便宜，不使用不付费，按照流量付费。如果用完了2500云豆就可以充值。下面是资费情况，常用就是HTTP和HTTPS两项。</p>
+<p><img src="http://7xlx99.com1.z0.glb.clouddn.com/github/20151202171000.png" alt></p>
+<p>好了，下面开始介绍如何在新浪SAE上搭建自己的博客。</p>
+<p>一、在新浪SAE上注册一个账号：<a href="http://www.sinacloud.com/，免费的500云豆到手。之后你可以实名认证获取到2000云豆。" target="_blank" rel="noopener">http://www.sinacloud.com/，免费的500云豆到手。之后你可以实名认证获取到2000云豆。</a></p>
+<p>二、安装Wordpress博客程序</p>
+<h3 id="简单版："><a href="#简单版：" class="headerlink" title="简单版："></a>简单版：</h3><blockquote>
+<p>WordPress是一种使用PHP语言开发的博客平台，用户可以在支持PHP和MySQL数据库的服务器上架设属于自己的网站。也可以把 WordPress当作一个内容管理系统（CMS）来使用。</p>
+</blockquote>
+<p>进入控制台-&gt;创建新应用</p>
+<p><img src="http://7xlx99.com1.z0.glb.clouddn.com/github/QQ%E6%88%AA%E5%9B%BE20151202173950.png" alt></p>
+<p>创建一个新应用之后弹出如下的界面，填写你的二级域名（唯一的）作为你的应用的访问地址，即xxxxx.sinaapp.com。然后填写其他相关信息。</p>
+<p><img src="http://7xlx99.com1.z0.glb.clouddn.com/github/QQ%E6%88%AA%E5%9B%BE20151202174256.png" alt></p>
+<p>填写好应用的信息之后，选择Wordpress for SAE应用安装</p>
+<p><img src="http://7xlx99.com1.z0.glb.clouddn.com/github/QQ%E6%88%AA%E5%9B%BE20151202174326.png" alt></p>
+<p>创建好之后，依然进入控制台，发现你的应用仓库里面多了一个应用，没错就是你刚才创建的Wordpress应用</p>
+<p><img src="http://7xlx99.com1.z0.glb.clouddn.com/github/QQ%E6%88%AA%E5%9B%BE20151202174736%20%281%29.png" alt></p>
+<p>点击红色的方框下面的链接就可以配置你的Wordpress了，进去之后界面是这样的。</p>
+<p><img src="http://7xlx99.com1.z0.glb.clouddn.com/github/QQ%E6%88%AA%E5%9B%BE20151202174927.png" alt></p>
+<p><img src="http://7xlx99.com1.z0.glb.clouddn.com/github/QQ%E6%88%AA%E5%9B%BE20151202174959.png" alt></p>
+<p>填写你的站点标题和用户名，密码和电子邮箱，一键点击安装Wordpress即可</p>
+<p><img src="http://7xlx99.com1.z0.glb.clouddn.com/github/QQ%E6%88%AA%E5%9B%BE20151202175018.png" alt></p>
+<p>点击登入即可进入登入页面了</p>
+<p><img src="http://7xlx99.com1.z0.glb.clouddn.com/github/QQ%E6%88%AA%E5%9B%BE20151202175100.png" alt></p>
+<p>是不是很简单~_~之后你就可以尽情的写作和管理你的博客了。你的登入界面在<a href="http://XXXXXXX.sinaapp.com/wp-admin/" target="_blank" rel="noopener">http://XXXXXXX.sinaapp.com/wp-admin/</a></p>
+<p><img src="http://7xlx99.com1.z0.glb.clouddn.com/github/QQ%E6%88%AA%E5%9B%BE20151202181032.png" alt></p>
+<p><img src="http://7xlx99.com1.z0.glb.clouddn.com/github/QQ%E6%88%AA%E5%9B%BE20151202181118.png" alt></p>
+<p>复杂版：</p>
+<p>上述的简单版本已经很方便了，但是新浪SAE提供的Wordpress版本不是最新的，现在的版本是Wordpress 4.3.1，而它提供的还是3.4.1（2015.12），很不开心。/(ㄒoㄒ)/~~</p>
+<p>所以下面的内容是通过自己上传代码获取最新版本的Wordpress或者自己想要的任何版本。</p>
+<p>首先到官网下载最新版或者其它版本的Wordpress，地址：<a href="https://cn.wordpress.org/。" target="_blank" rel="noopener">https://cn.wordpress.org/。</a> 下载之后解压缩找到wp-config-example.php文件（根目录下），修改文件名为wp-config.php。然后填写配置信息。这是Wordpress用来配置数据库等信息的，如何配置可以查看SAE给的API。可以在此处下载文件，复制里面的内容到你的wp-config.php文件当中。</p>
+<p>可以在上面的步骤基础上进入应用管理，也可以直接创建一个空的应用进行管理。</p>
+<p>进入代码管理，创建新的版本（如果是空应用就不需要了）</p>
+<p>[QQ截图20151205145015]</p>
+<p>然后将刚才的代码压缩成zip文件上传，压缩包命名随便，最好不能有中文，上传之后服务器会自动解压。解压的代码文件要是在根目录，不能有外层的目录。</p>
+<p>[QQ截图20151205145347]</p>
+<p>[QQ截图20151205145829]</p>
+<p>切换至版本2就行了。这样你使用的数据库就是同一个数据库文件，之前你的数据库也就不需要搬运了。</p>
+<p>如果发现上传的代码包有问题，也可以在网上搜索wordpress for SAE 可以下载最新的版本然后直接上传即可。这里提供一个较新版的wordpress for SAE 下载  <a href="http://down.chinaz.com/soft/37523.htm。" target="_blank" rel="noopener">http://down.chinaz.com/soft/37523.htm。</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/all-tags/Blog/" rel="tag"># Blog</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/01/cvpr2011-good-paper.html" rel="prev" title="【转】卖萌的大牛你桑不起啊 ——记CVPR2011一篇极品文章">
+                【转】卖萌的大牛你桑不起啊 ——记CVPR2011一篇极品文章 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Wen Jun</p>
+              <div class="site-description motion-element" itemprop="description">Wllcome to wenjun's blog</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/wenjunoy" title="GitHub &rarr; https://github.com/wenjunoy" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:wjouyang@tencent.com" title="E-Mail &rarr; mailto:wjouyang@tencent.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简单版："><span class="nav-number">1.</span> <span class="nav-text">简单版：</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wen Jun</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
